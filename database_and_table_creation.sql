@@ -15,7 +15,6 @@ IF NOT EXISTS (SELECT * FROM sys.tables WHERE [name] = 'User')
 			[city] nvarchar(250) not null,
 			[state] nvarchar(2) not null,
 			[dateCreated] datetime not null,
-			[uid] nvarchar(250) not null
 		)
 	END
 ELSE
@@ -121,3 +120,38 @@ IF NOT EXISTS (SELECT * FROM sys.tables WHERE [name] = 'Cities')
 	END
 ELSE
 	PRINT 'User table already exists'
+
+ALTER TABLE Amenity
+ADD constraint FK_Amenity_Business 
+	foreign key (businessId) 
+	references Business (id)
+
+ALTER TABLE Amenity
+ADD constraint FK_Amenity_AmenityType
+	foreign key (typeId) 
+	references AmenityType (id)
+
+ALTER TABLE Amenity
+ADD constraint FK_Amenity_RestroomType
+	foreign key (restroomType) 
+	references RestroomType (id)
+
+ALTER TABLE BusinessRating
+ADD constraint FK_BusinessRating_User
+	foreign key ([uid])
+	references [User] (id)
+
+ALTER TABLE BusinessRating
+ADD constraint FK_BusinessRating_Business
+	foreign key (businessId)
+	references Business (id)
+
+ALTER TABLE BusinessRating
+ADD constraint FK_BusinessRating_RestroomType
+	foreign key (restroomType)
+	references RestroomType (id)
+
+ALTER TABLE Cities
+ADD constraint FK_Cities_States
+	foreign key (stateAbbreviation)
+	references [States] (stateAbbreviation)
