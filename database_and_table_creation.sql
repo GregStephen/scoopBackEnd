@@ -121,37 +121,74 @@ IF NOT EXISTS (SELECT * FROM sys.tables WHERE [name] = 'Cities')
 ELSE
 	PRINT 'User table already exists'
 
-ALTER TABLE Amenity
-ADD constraint FK_Amenity_Business 
-	foreign key (businessId) 
-	references Business (id)
 
-ALTER TABLE Amenity
-ADD constraint FK_Amenity_AmenityType
-	foreign key (typeId) 
-	references AmenityType (id)
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE [name] = 'FK_Amenity_Business')
+	BEGIN
+		ALTER TABLE Amenity
+		ADD constraint FK_Amenity_Business 
+			foreign key (businessId) 
+			references Business (id)
+	END
+ELSE
+	PRINT 'FK_Amenity_Business already exists'
 
-ALTER TABLE Amenity
-ADD constraint FK_Amenity_RestroomType
-	foreign key (restroomType) 
-	references RestroomType (id)
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE [name] = 'FK_Amenity_AmenityType')
+	BEGIN
+		ALTER TABLE Amenity
+		ADD constraint FK_Amenity_AmenityType
+			foreign key (typeId) 
+			references AmenityType (id)
+	END
+ELSE
+	PRINT 'FK_Amenity_AmenityType already exists'
 
-ALTER TABLE BusinessRating
-ADD constraint FK_BusinessRating_User
-	foreign key ([uid])
-	references [User] (id)
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE [name] = 'FK_Amenity_RestroomType')
+	BEGIN
+		ALTER TABLE Amenity
+		ADD constraint FK_Amenity_RestroomType
+			foreign key (restroomType) 
+			references RestroomType (id)
+	END
+ELSE
+	PRINT 'FK_Amenity_RestroomType already exists'
 
-ALTER TABLE BusinessRating
-ADD constraint FK_BusinessRating_Business
-	foreign key (businessId)
-	references Business (id)
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE [name] = 'FK_BusinessRating_User')
+	BEGIN
+		ALTER TABLE BusinessRating
+		ADD constraint FK_BusinessRating_User
+			foreign key ([uid])
+			references [User] (id)
+	END
+ELSE
+	PRINT 'FK_BusinessRating_User already exists'
 
-ALTER TABLE BusinessRating
-ADD constraint FK_BusinessRating_RestroomType
-	foreign key (restroomType)
-	references RestroomType (id)
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE [name] = 'FK_BusinessRating_Business')
+	BEGIN
+		ALTER TABLE BusinessRating
+		ADD constraint FK_BusinessRating_Business
+			foreign key (businessId)
+			references Business (id)
+	END
+ELSE
+	PRINT 'FK_BusinessRating_Business already exists'
 
-ALTER TABLE Cities
-ADD constraint FK_Cities_States
-	foreign key (stateAbbreviation)
-	references [States] (stateAbbreviation)
+
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE [name] = 'FK_BusinessRating_RestroomType')
+	BEGIN
+		ALTER TABLE BusinessRating
+		ADD constraint FK_BusinessRating_RestroomType
+			foreign key (restroomType)
+			references RestroomType (id)
+	END
+ELSE
+	PRINT 'FK_BusinessRating_RestroomType already exists'
+
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE [name] = 'FK_Cities_States')
+	BEGIN
+		ALTER TABLE Cities
+		ADD constraint FK_Cities_States
+			foreign key (stateAbbreviation)
+			references [States] (stateAbbreviation)
+	END
+ELSE
+	PRINT 'FK_Cities_States already exists'
